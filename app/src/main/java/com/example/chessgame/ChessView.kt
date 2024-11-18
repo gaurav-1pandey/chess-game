@@ -14,6 +14,8 @@ import android.widget.Toast
 class ChessView(context:Context?,attrs:AttributeSet?):View(context,attrs) {
 
 
+    var chDelegate :chessDelegate?=null
+
 
 
     private val imgres= setOf<Int>(R.drawable.queen_white,
@@ -54,12 +56,11 @@ class ChessView(context:Context?,attrs:AttributeSet?):View(context,attrs) {
 
     fun drawpieces(canvas: Canvas){
 
-        var chessModel:ChessModel=ChessModel()
-        chessModel.reset()
+
 
         for (i in 1..8){
             for (j in 1..8){
-                var chessPiece=chessModel.pieceAt(i,j)
+                var chessPiece=chDelegate?.pieceAt(i,j)
                 if (chessPiece!=null){
                     drawpiece(canvas,j,i,chessPiece.resid)
                 }
