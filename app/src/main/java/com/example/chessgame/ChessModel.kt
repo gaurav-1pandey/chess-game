@@ -5,6 +5,9 @@ class ChessModel {
 
     init {
         reset()
+
+        movePiece(1,2,1,8)
+        movePiece(1,8,3,3)
     }
 
     fun reset(){
@@ -44,6 +47,8 @@ class ChessModel {
 
     }
 
+
+
     fun pieceAt(col:Int,row:Int): ChessPiece? {
         for (piece in pieceBox){
             if (col == piece.col && row == piece.row){
@@ -51,6 +56,27 @@ class ChessModel {
             }
         }
         return null
+    }
+
+    fun movePiece(fromCol:Int,fromRow:Int,toCol:Int,toRow:Int){
+        var movingPiece=pieceAt(fromCol,fromRow)
+        var attackedPiece=pieceAt(toCol,toRow)
+
+        if (movingPiece!=null){
+
+            if (attackedPiece!=null && attackedPiece.player!=movingPiece.player){
+                pieceBox.remove(attackedPiece)
+                movingPiece.col=toCol
+                movingPiece.row=toRow
+            }
+            else{
+                return
+            }
+
+        }
+        else{
+            return
+        }
     }
 
     override fun toString(): String {
