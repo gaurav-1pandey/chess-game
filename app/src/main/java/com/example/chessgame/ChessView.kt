@@ -26,8 +26,6 @@ class ChessView(context:Context?,attrs:AttributeSet?):View(context,attrs) {
 
     var topstart=((height-squareSize*8)/2).toFloat()
 
-
-
     private val imgres= setOf<Int>(R.drawable.queen_white,
         R.drawable.bishop_white,
         R.drawable.bishop_black,
@@ -46,17 +44,11 @@ class ChessView(context:Context?,attrs:AttributeSet?):View(context,attrs) {
 
     var loc=Array(8){Array(8){Array(4){0.0f} } }
 
-
-
-
-
-
     fun loadBM(){
         imgres.forEach {
             map[it] = BitmapFactory.decodeResource(resources, it)!!
         }
     }
-
     fun drawpiec(canvas: Canvas,a:Int,b:Int,piece:Int?){
         canvas.drawBitmap(map[piece]!!,null,Rect(a,b,a+squareSize.toInt(),b+squareSize.toInt()),paint1)
 
@@ -66,11 +58,9 @@ class ChessView(context:Context?,attrs:AttributeSet?):View(context,attrs) {
 
         canvas.drawBitmap(map[piece]!!,null,Rect(loc[(7-a)+1][b-1][0].toInt(),loc[(7-a)+1][b-1][1].toInt(),loc[(7-a)+1][b-1][2].toInt(),loc[(7-a)+1][b-1][3].toInt()),paint1)
 
-
     }
     var fromcol=-1
     var fromrow=-1
-
 
     override fun onTouchEvent(event: MotionEvent?): Boolean {
         event?: return false
@@ -79,7 +69,6 @@ class ChessView(context:Context?,attrs:AttributeSet?):View(context,attrs) {
 
         when(event.action){
             MotionEvent.ACTION_DOWN -> {
-
 
                 fromcol=(event.x/squareSize).toInt()
                 fromrow=8-((event.y-topstart)/squareSize).toInt()
@@ -91,17 +80,24 @@ class ChessView(context:Context?,attrs:AttributeSet?):View(context,attrs) {
                 Log.d("hellog","up")
                 val x=(event.x/squareSize).toInt()
                 val y=8-((event.y-topstart)/squareSize).toInt()
-                chDelegate?.movePiece(fromcol,fromrow,x,y)
+                if (x in 1..8 && y in 1..8){
+                    chDelegate?.movePiece(fromcol,fromrow,x,y)
+
+                }
+
+
+                Log.d("hellog1","${x} ${y}")
 
                 Log.d("hellog","${x} ${y}")
                 xx=-1
                 yy=-1
+                invalidate()
 
             }
             MotionEvent.ACTION_MOVE -> {
                 xx=event.x.toInt()
                 yy=event.y.toInt()
-                chDelegate?.pieceAt(fromcol,fromrow)?.let { chDelegate?.drawpiec(cnvs,event.x.toInt(),event.y.toInt(),it.resid) }
+                chDelegate?.pieceAt(fromcol,fromrow)?.let { chDelegate?.drawpiec() }
 
 
             }
@@ -154,7 +150,7 @@ class ChessView(context:Context?,attrs:AttributeSet?):View(context,attrs) {
 
         paint2.color=Color.DKGRAY
         paint1.color=Color.LTGRAY
-        Toast.makeText(context,"$topstart",Toast.LENGTH_LONG).show()
+//        Toast.makeText(context,"$topstart",Toast.LENGTH_LONG).show()
 
 //        canvas.drawRect(100f,topstart,100f+squareSize,topstart+squareSize,paint1)
 

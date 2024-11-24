@@ -15,6 +15,7 @@ class ChessModel {
     }
 
     fun reset(){
+        pieceBox.clear()
         pieceBox.add(ChessPiece(1,1,ChessPlayer.WHITE,ChessRank.HATHI ,R.drawable.rook_white))
         pieceBox.add(ChessPiece(2,1,ChessPlayer.WHITE,ChessRank.GHODA,R.drawable.knight_white ))
         pieceBox.add(ChessPiece(3,1,ChessPlayer.WHITE,ChessRank.OONT,R.drawable.bishop_white ))

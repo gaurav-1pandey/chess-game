@@ -7,6 +7,8 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import android.util.Log
+import android.view.View
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 class MainActivity : AppCompatActivity(),chessDelegate {
     var chessModel=ChessModel()
@@ -19,6 +21,13 @@ class MainActivity : AppCompatActivity(),chessDelegate {
 
         chessView=findViewById<ChessView>(R.id.chessV)
         chessView.chDelegate=this
+
+        var reset=findViewById<FloatingActionButton>(R.id.reset)
+
+        reset.setOnClickListener(View.OnClickListener {
+            chessModel.reset()
+            chessView.invalidate()
+        })
 
 
 
@@ -34,8 +43,9 @@ class MainActivity : AppCompatActivity(),chessDelegate {
         chessView.invalidate()
     }
 
-    override fun drawpiec(canvas: Canvas, a: Int, b: Int, piece: Int) {
-        chessView.drawpiec(canvas,a,b,piece)
+
+
+    override fun drawpiec() {
         chessView.invalidate()
     }
 
