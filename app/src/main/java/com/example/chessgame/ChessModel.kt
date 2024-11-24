@@ -1,13 +1,17 @@
 package com.example.chessgame
 
+import android.util.Log
+import android.view.MotionEvent
+import android.view.View
+
 class ChessModel {
     var pieceBox= mutableSetOf<ChessPiece>()
 
     init {
         reset()
 
-        movePiece(1,2,1,8)
-        movePiece(1,8,3,3)
+//        movePiece(1,2,1,8)
+//        movePiece(1,8,3,3)
     }
 
     fun reset(){
@@ -28,22 +32,22 @@ class ChessModel {
         pieceBox.add(ChessPiece(7,2,ChessPlayer.WHITE,ChessRank.PYADA ,R.drawable.pawn_white))
         pieceBox.add(ChessPiece(8,2,ChessPlayer.WHITE,ChessRank.PYADA ,R.drawable.pawn_white))
 
-        pieceBox.add(ChessPiece(1,8,ChessPlayer.WHITE,ChessRank.HATHI ,R.drawable.rook_black))
-        pieceBox.add(ChessPiece(2,8,ChessPlayer.WHITE,ChessRank.GHODA,R.drawable.knight_black ))
-        pieceBox.add(ChessPiece(3,8,ChessPlayer.WHITE,ChessRank.OONT,R.drawable.bishop_black ))
-        pieceBox.add(ChessPiece(4,8,ChessPlayer.WHITE,ChessRank.RANI,R.drawable.queen_black ))
-        pieceBox.add(ChessPiece(5,8,ChessPlayer.WHITE,ChessRank.RAJA,R.drawable.king_black ))
-        pieceBox.add(ChessPiece(6,8,ChessPlayer.WHITE,ChessRank.OONT,R.drawable.bishop_black ))
-        pieceBox.add(ChessPiece(7,8,ChessPlayer.WHITE,ChessRank.GHODA ,R.drawable.knight_black))
-        pieceBox.add(ChessPiece(8,8,ChessPlayer.WHITE,ChessRank.HATHI ,R.drawable.rook_black))
-        pieceBox.add(ChessPiece(1,7,ChessPlayer.WHITE,ChessRank.PYADA,R.drawable.pawn_black ))
-        pieceBox.add(ChessPiece(2,7,ChessPlayer.WHITE,ChessRank.PYADA ,R.drawable.pawn_black))
-        pieceBox.add(ChessPiece(3,7,ChessPlayer.WHITE,ChessRank.PYADA ,R.drawable.pawn_black))
-        pieceBox.add(ChessPiece(4,7,ChessPlayer.WHITE,ChessRank.PYADA ,R.drawable.pawn_black))
-        pieceBox.add(ChessPiece(5,7,ChessPlayer.WHITE,ChessRank.PYADA ,R.drawable.pawn_black))
-        pieceBox.add(ChessPiece(6,7,ChessPlayer.WHITE,ChessRank.PYADA ,R.drawable.pawn_black))
-        pieceBox.add(ChessPiece(7,7,ChessPlayer.WHITE,ChessRank.PYADA ,R.drawable.pawn_black))
-        pieceBox.add(ChessPiece(8,7,ChessPlayer.WHITE,ChessRank.PYADA ,R.drawable.pawn_black))
+        pieceBox.add(ChessPiece(1,8,ChessPlayer.BLACK,ChessRank.HATHI ,R.drawable.rook_black))
+        pieceBox.add(ChessPiece(2,8,ChessPlayer.BLACK,ChessRank.GHODA,R.drawable.knight_black ))
+        pieceBox.add(ChessPiece(3,8,ChessPlayer.BLACK,ChessRank.OONT,R.drawable.bishop_black ))
+        pieceBox.add(ChessPiece(4,8,ChessPlayer.BLACK,ChessRank.RANI,R.drawable.queen_black ))
+        pieceBox.add(ChessPiece(5,8,ChessPlayer.BLACK,ChessRank.RAJA,R.drawable.king_black ))
+        pieceBox.add(ChessPiece(6,8,ChessPlayer.BLACK,ChessRank.OONT,R.drawable.bishop_black ))
+        pieceBox.add(ChessPiece(7,8,ChessPlayer.BLACK,ChessRank.GHODA ,R.drawable.knight_black))
+        pieceBox.add(ChessPiece(8,8,ChessPlayer.BLACK,ChessRank.HATHI ,R.drawable.rook_black))
+        pieceBox.add(ChessPiece(1,7,ChessPlayer.BLACK,ChessRank.PYADA,R.drawable.pawn_black ))
+        pieceBox.add(ChessPiece(2,7,ChessPlayer.BLACK,ChessRank.PYADA ,R.drawable.pawn_black))
+        pieceBox.add(ChessPiece(3,7,ChessPlayer.BLACK,ChessRank.PYADA ,R.drawable.pawn_black))
+        pieceBox.add(ChessPiece(4,7,ChessPlayer.BLACK,ChessRank.PYADA ,R.drawable.pawn_black))
+        pieceBox.add(ChessPiece(5,7,ChessPlayer.BLACK,ChessRank.PYADA ,R.drawable.pawn_black))
+        pieceBox.add(ChessPiece(6,7,ChessPlayer.BLACK,ChessRank.PYADA ,R.drawable.pawn_black))
+        pieceBox.add(ChessPiece(7,7,ChessPlayer.BLACK,ChessRank.PYADA ,R.drawable.pawn_black))
+        pieceBox.add(ChessPiece(8,7,ChessPlayer.BLACK,ChessRank.PYADA ,R.drawable.pawn_black))
 
     }
 
@@ -58,25 +62,45 @@ class ChessModel {
         return null
     }
 
+
+
+
     fun movePiece(fromCol:Int,fromRow:Int,toCol:Int,toRow:Int){
         var movingPiece=pieceAt(fromCol,fromRow)
         var attackedPiece=pieceAt(toCol,toRow)
 
-        if (movingPiece!=null){
 
-            if (attackedPiece!=null && attackedPiece.player!=movingPiece.player){
-                pieceBox.remove(attackedPiece)
+
+        if (movingPiece!=null){
+            if (attackedPiece!=null ){
+                if (attackedPiece.player!=movingPiece.player){
+//                    pieceBox.remove(attackedPiece)
+                    attackedPiece.col=-1
+                    attackedPiece.row=-1
+                    movingPiece.col=toCol
+                    movingPiece.row=toRow
+
+                    for ( k in pieceBox){
+
+                        Log.d("hellog","${k.col}  ${k.row}    ${k.rank}   ${k.player}")
+                    }
+                }
+
+            }
+            else {
+
                 movingPiece.col=toCol
                 movingPiece.row=toRow
-            }
-            else{
-                return
+                for ( k in pieceBox){
+                    Log.d("hellog","${k.col}  ${k.row}    ${k.rank}  ${k.player} kk")
+                }
             }
 
+
+
         }
-        else{
-            return
-        }
+        Log.d("hellog",toString())
+
     }
 
     override fun toString(): String {
