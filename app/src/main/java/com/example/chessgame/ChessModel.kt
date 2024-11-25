@@ -7,6 +7,8 @@ import android.view.View
 class ChessModel {
     var pieceBox= mutableSetOf<ChessPiece>()
 
+    var chessPlayer=ChessPlayer.WHITE
+
     init {
         reset()
 
@@ -51,9 +53,6 @@ class ChessModel {
         pieceBox.add(ChessPiece(8,7,ChessPlayer.BLACK,ChessRank.PYADA ,R.drawable.pawn_black))
 
     }
-
-
-
     fun pieceAt(col:Int,row:Int): ChessPiece? {
         for (piece in pieceBox){
             if (col == piece.col && row == piece.row){
@@ -62,17 +61,22 @@ class ChessModel {
         }
         return null
     }
-
-
-
-
-    fun movePiece(fromCol:Int,fromRow:Int,toCol:Int,toRow:Int){
+    fun movePiece(fromCol:Int,fromRow:Int,toCol:Int,toRow:Int):Boolean{
         var movingPiece=pieceAt(fromCol,fromRow)
+        var flag=false
         var attackedPiece=pieceAt(toCol,toRow)
 
 
 
         if (movingPiece!=null){
+
+
+            if (chessPlayer==movingPiece.player){
+                chessPlayer = if (chessPlayer==ChessPlayer.BLACK) ChessPlayer.WHITE else ChessPlayer.BLACK
+            }
+            else{
+                return flag
+            }
             if (attackedPiece!=null ){
                 if (attackedPiece.player!=movingPiece.player){
 //                    pieceBox.remove(attackedPiece)
@@ -80,6 +84,7 @@ class ChessModel {
                     attackedPiece.row=-1
                     movingPiece.col=toCol
                     movingPiece.row=toRow
+                    flag=true
 
                     for ( k in pieceBox){
 
@@ -92,6 +97,7 @@ class ChessModel {
 
                 movingPiece.col=toCol
                 movingPiece.row=toRow
+                flag=true
                 for ( k in pieceBox){
                     Log.d("hellog","${k.col}  ${k.row}    ${k.rank}  ${k.player} kk")
                 }
@@ -101,6 +107,7 @@ class ChessModel {
 
         }
         Log.d("hellog",toString())
+        return flag
 
     }
 

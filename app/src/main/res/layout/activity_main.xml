@@ -9,15 +9,14 @@
     android:layout_width="match_parent">
 
 
-
     <com.example.chessgame.ChessView
 
 
         android:id="@+id/chessV"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-
+        android:layout_height="match_parent"
+        tools:layout_editor_absoluteX="-195dp"
+        tools:layout_editor_absoluteY="-192dp">
 
 
     </com.example.chessgame.ChessView>
@@ -26,13 +25,50 @@
         android:id="@+id/reset"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="24dp"
+        android:layout_marginEnd="44dp"
         android:layout_marginBottom="52dp"
         android:backgroundTint="#BEC3BD"
         android:clickable="true"
         android:src="@android:drawable/ic_delete"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
+
+    <EditText
+        android:id="@+id/ed_Code"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="76dp"
+
+        android:ems="10"
+        android:hint="Create/Join"
+        android:padding="5dp"
+        android:inputType="text"
+
+        android:textSize="24dp"
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/btn_create"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="44dp"
+        android:text="Create"
+        app:layout_constraintBaseline_toBaselineOf="@+id/btn_join"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/btn_join"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="52dp"
+        android:text="Join"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/reset"
+        app:layout_constraintHorizontal_bias="0.363"
+        app:layout_constraintStart_toEndOf="@+id/btn_create" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
