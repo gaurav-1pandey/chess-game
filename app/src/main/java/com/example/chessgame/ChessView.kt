@@ -20,6 +20,8 @@ class ChessView(context:Context?,attrs:AttributeSet?):View(context,attrs) {
     var squareSize=(width/10).toFloat()
     lateinit var cnvs:Canvas
 
+
+
     var xx:Int=-1
     var yy=-1
 
@@ -132,6 +134,7 @@ class ChessView(context:Context?,attrs:AttributeSet?):View(context,attrs) {
     fun logicalXor(a: Boolean, b: Boolean): Boolean {
         return (a && !b) || (!a && b)
     }
+
     init {
         loadBM()
     }
@@ -177,8 +180,6 @@ class ChessView(context:Context?,attrs:AttributeSet?):View(context,attrs) {
 
 
         Log.d("hellog","${loc[0][0][0]}  ${loc[0][0][1]}  ${loc[0][0][2]}  ${loc[0][0][3]}  ")
-
-
 
         drawpieces(canvas)
         if (xx!=-1){

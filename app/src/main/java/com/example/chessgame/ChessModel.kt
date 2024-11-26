@@ -1,17 +1,24 @@
 package com.example.chessgame
 
 import android.util.Log
-import android.view.MotionEvent
-import android.view.View
+import android.widget.Toast
+import com.google.firebase.database.DatabaseReference
+
 
 class ChessModel {
     var pieceBox= mutableSetOf<ChessPiece>()
 
+    var myref:DatabaseReference?=null
+
     var chessPlayer=ChessPlayer.WHITE
+    var f:Boolean=false
+
+
+
+
 
     init {
         reset()
-
 //        movePiece(1,2,1,8)
 //        movePiece(1,8,3,3)
     }
@@ -53,6 +60,15 @@ class ChessModel {
         pieceBox.add(ChessPiece(8,7,ChessPlayer.BLACK,ChessRank.PYADA ,R.drawable.pawn_black))
 
     }
+
+
+    fun j(){
+        for (i in pieceBox){
+            i.row=8-i.row+1
+            i.col=8-i.col+1
+        }
+
+    }
     fun pieceAt(col:Int,row:Int): ChessPiece? {
         for (piece in pieceBox){
             if (col == piece.col && row == piece.row){
@@ -61,55 +77,53 @@ class ChessModel {
         }
         return null
     }
-    fun movePiece(fromCol:Int,fromRow:Int,toCol:Int,toRow:Int):Boolean{
-        var movingPiece=pieceAt(fromCol,fromRow)
-        var flag=false
-        var attackedPiece=pieceAt(toCol,toRow)
+    fun movePiece(fromCol:Int,fromRow:Int,toCol:Int,toRow:Int,t:String) {
+        if (f==true){
+            f=false
+            return
+        }
+
+            var movingPiece = pieceAt(fromCol, fromRow)
+            var attackedPiece = pieceAt(toCol, toRow)
 
 
 
-        if (movingPiece!=null){
-
-
-            if (chessPlayer==movingPiece.player){
-                chessPlayer = if (chessPlayer==ChessPlayer.BLACK) ChessPlayer.WHITE else ChessPlayer.BLACK
-            }
-            else{
-                return flag
-            }
-            if (attackedPiece!=null ){
-                if (attackedPiece.player!=movingPiece.player){
-//                    pieceBox.remove(attackedPiece)
-                    attackedPiece.col=-1
-                    attackedPiece.row=-1
-                    movingPiece.col=toCol
-                    movingPiece.row=toRow
-                    flag=true
-
-                    for ( k in pieceBox){
-
-                        Log.d("hellog","${k.col}  ${k.row}    ${k.rank}   ${k.player}")
+            if (movingPiece != null) {
+                if (chessPlayer == movingPiece.player && !(fromCol == toCol && fromRow == toRow)) {
+                    chessPlayer = if (chessPlayer == ChessPlayer.BLACK) ChessPlayer.WHITE else ChessPlayer.BLACK
+                    if (myref != null) {
+                        myref?.child("move")?.setValue("${fromCol}  ${fromRow}  ${toCol}  ${toRow}")
+                        myref?.child("player")
+                            ?.setValue(if (chessPlayer == ChessPlayer.WHITE) "black" else "white")
                     }
+                } else {
+                    Log.d("mmmm","${fromCol}  ${fromRow}  ${toCol}  ${toRow}")
+                    return
+                }
+                if (attackedPiece != null) {
+                    if (attackedPiece.player != movingPiece.player) {
+//                    pieceBox.remove(attackedPiece)
+                        attackedPiece.col = -1
+                        attackedPiece.row = -1
+                        movingPiece.col = toCol
+                        movingPiece.row = toRow
+
+
+                    }
+
+                } else {
+
+                    movingPiece.col = toCol
+                    movingPiece.row = toRow
+
                 }
 
+
             }
-            else {
-
-                movingPiece.col=toCol
-                movingPiece.row=toRow
-                flag=true
-                for ( k in pieceBox){
-                    Log.d("hellog","${k.col}  ${k.row}    ${k.rank}  ${k.player} kk")
-                }
-            }
-
-
+            Log.d("hellog", toString())
 
         }
-        Log.d("hellog",toString())
-        return flag
 
-    }
 
     override fun toString(): String {
 
